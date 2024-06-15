@@ -2,16 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 
 import axios from "axios";
 
-async function getUser(user: WebAppUser) {
-  const { id, username, photo_url } = user;
-
+async function getUser(user: WebAppUser | undefined) {
   try {
     const data = await axios.post(
       "http://localhost:3000/users/find_or_create_user",
       {
-        _id: id,
-        image: photo_url,
-        name: username
+        _id: user?.id,
+        image: user?.photo_url,
+        name: user?.username
       }
     );
 
@@ -29,8 +27,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (tg && tg.initDataUnsafe.user) {
-      getUser(tg.initDataUnsafe.user).then((data) => {
+    if (tg) {
+      getUser(tg.initDataUnsafe?.user).then((data) => {
         setUser(data);
       });
     }
