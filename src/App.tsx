@@ -10,7 +10,6 @@ async function getUser(user: WebAppUser) {
       "http://localhost:3000/users/find_or_create_user",
       {
         _id: user.id,
-        image: user.photo_url,
         name: user.username
       }
     );
