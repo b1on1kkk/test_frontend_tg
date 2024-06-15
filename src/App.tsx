@@ -28,13 +28,19 @@ function App() {
 
   useEffect(() => {
     if (tg) {
-      getUser(tg.initDataUnsafe?.user).then((data) => {
+      getUser(tg.initDataUnsafe.user).then((data) => {
         setUser(data);
       });
     }
-  }, [tg]);
+  }, [tg.initDataUnsafe]);
 
-  return <div>{user ? <>{JSON.stringify(user)}</> : <>{undefined}</>}</div>;
+  return (
+    <div>
+      <div>{JSON.stringify(user)}</div>
+
+      <div>{JSON.stringify(tg.initDataUnsafe.user)}</div>
+    </div>
+  );
 }
 
 export default App;
