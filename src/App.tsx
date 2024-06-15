@@ -13,7 +13,13 @@ function App() {
   }, [tg]);
 
   return (
-    <div>{user_data ? <>{JSON.stringify(user_data)}</> : <>{undefined}</>}</div>
+    <div>
+      {user_data ? (
+        <>{JSON.stringify(user_data.user?.photo_url)}</>
+      ) : (
+        <>{undefined}</>
+      )}
+    </div>
   );
 }
 
