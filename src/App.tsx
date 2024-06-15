@@ -17,7 +17,7 @@ async function getUser(user: WebAppUser | undefined) {
 
     return data.data;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 }
 
