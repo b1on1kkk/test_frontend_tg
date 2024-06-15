@@ -29,7 +29,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (tg && tg.initDataUnsafe.user) setUser(getUser(tg.initDataUnsafe.user));
+    if (tg && tg.initDataUnsafe.user) {
+      getUser(tg.initDataUnsafe.user).then((data) => {
+        setUser(data);
+      });
+    }
   }, [tg]);
 
   return <div>{user ? <>{JSON.stringify(user)}</> : <>{undefined}</>}</div>;
