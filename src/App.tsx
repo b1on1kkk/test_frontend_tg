@@ -14,11 +14,7 @@ function App() {
 
   return (
     <div>
-      {user_data ? (
-        <>{JSON.stringify(user_data.user?.photo_url)}</>
-      ) : (
-        <>{undefined}</>
-      )}
+      {user_data ? <>{JSON.stringify(user_data.user)}</> : <>{undefined}</>}
     </div>
   );
 }
