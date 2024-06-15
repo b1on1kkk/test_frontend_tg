@@ -1,9 +1,16 @@
+import { useMemo } from "react";
 import "./App.css";
 
-const tg = window.Telegram.WebApp;
-
 function App() {
-  return <>{tg.initDataUnsafe.user}</>;
+  const tg = useMemo(() => {
+    return window.Telegram.WebApp;
+  }, []);
+
+  const user_data = useMemo(() => {
+    if (tg) return tg.initDataUnsafe;
+  }, [tg]);
+
+  return <div>{user_data ? <>{user_data}</> : <>{undefined}</>}</div>;
 }
 
 export default App;
