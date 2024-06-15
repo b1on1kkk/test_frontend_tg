@@ -2,7 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 
 import axios from "axios";
 
-async function getUser(user: WebAppUser) {
+async function getUser(user: WebAppUser | undefined) {
+  if (!user) return "do not have anything";
+
   try {
     const data = await axios.post(
       "http://localhost:3000/users/find_or_create_user",
@@ -27,12 +29,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (tg && tg.initDataUnsafe.user) {
-      getUser(tg.initDataUnsafe.user).then((data) => {
+    if (tg) {
+      getUser(tg.initDataUnsafe?.user).then((data) => {
         setUser(data);
       });
     }
-  }, [tg, tg.initDataUnsafe]);
+  }, [tg]);
 
   return (
     <div>
