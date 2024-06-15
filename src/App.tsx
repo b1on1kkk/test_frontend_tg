@@ -6,11 +6,15 @@ function App() {
     return window.Telegram.WebApp;
   }, []);
 
+  console.log(tg);
+
   const user_data = useMemo(() => {
     if (tg) return tg.initDataUnsafe;
   }, [tg]);
 
-  return <div>{user_data ? <>{user_data}</> : <>{undefined}</>}</div>;
+  return (
+    <div>{user_data ? <>{JSON.stringify(user_data)}</> : <>{undefined}</>}</div>
+  );
 }
 
 export default App;
