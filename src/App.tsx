@@ -94,7 +94,7 @@ function App() {
 
       <br></br>
 
-      <div>{JSON.stringify(error)}</div>
+      <div>{JSON.stringify(error?.response?.data)}</div>
     </div>
   );
 }
