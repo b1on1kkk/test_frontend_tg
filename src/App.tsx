@@ -88,6 +88,12 @@ function App() {
         <>Loading...</>
       )}
 
+      <br></br>
+
+      <div>-------------------Error below--------------------</div>
+
+      <br></br>
+
       <div>{JSON.stringify(error)}</div>
     </div>
   );
