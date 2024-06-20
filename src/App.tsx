@@ -23,7 +23,7 @@ async function getUser(user: WebAppUser): Promise<DataResponse | AxiosError> {
     const data = await axios.post<DataResponse>(
       "http://localhost:3000/users/find_or_create_user",
       {
-        // _id: user.id,
+        _id: user.id,
         name: user.username
       }
     );
