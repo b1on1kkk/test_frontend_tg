@@ -32,7 +32,7 @@ const useFindOrLoggedInUser = <T extends DataResponse>(
       const response = await axios.post<T>(
         "http://localhost:3001/users/find_or_create_user",
         {
-          // _id: user.id,
+          _id: user.id,
           name: user.first_name
         }
       );
