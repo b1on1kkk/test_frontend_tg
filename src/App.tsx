@@ -14,6 +14,7 @@ interface User {
 }
 
 interface DataResponse {
+  error: boolean;
   message: string;
   user: User;
 }
@@ -81,7 +82,13 @@ function App() {
 
       <br></br>
 
-      <div>{JSON.stringify(error?.message)}</div>
+      <>
+        {error instanceof AxiosError ? (
+          <div>{JSON.stringify(error?.response?.data)}</div>
+        ) : (
+          <div>{JSON.stringify(error)}</div>
+        )}
+      </>
     </div>
   );
 }
