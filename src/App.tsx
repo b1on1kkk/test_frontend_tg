@@ -47,6 +47,10 @@ function App() {
     tg.initDataUnsafe.user
   );
 
+  console.log(error);
+
+  console.log(data);
+
   return (
     <div
       style={{
