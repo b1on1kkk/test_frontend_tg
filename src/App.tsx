@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-
 import axios, { AxiosError } from "axios";
+
+import { useQuery } from "@tanstack/react-query";
 
 interface User {
   image: string;
@@ -18,46 +18,33 @@ interface DataResponse {
   user: User;
 }
 
-async function getUser(user: WebAppUser): Promise<DataResponse | AxiosError> {
-  try {
-    const data = await axios.post<DataResponse>(
-      "http://localhost:3000/users/find_or_create_user",
-      {
-        _id: user.id,
-        name: user.username
-      }
-    );
+const tg = window.Telegram.WebApp;
 
-    return data.data;
-  } catch (error) {
-    return error as AxiosError;
-  }
-}
+const useFindOrLoggedInUser = <T extends DataResponse>(
+  user: WebAppUser | undefined
+) => {
+  return useQuery<T, AxiosError | Error>({
+    queryKey: ["find_or_create_user"],
+    queryFn: async () => {
+      if (!user) throw new Error("User is undefined");
 
-function App() {
-  const [user, setUser] = useState<User | null>(null);
-  const [error, setError] = useState<AxiosError | null>(null);
-
-  const tg = useMemo(() => {
-    return window.Telegram.WebApp;
-  }, []);
-
-  useEffect(() => {
-    if (tg) tg.ready();
-
-    if (tg && tg.initDataUnsafe.user) {
-      getUser(tg.initDataUnsafe.user).then(
-        (data: AxiosError | DataResponse) => {
-          if (data instanceof AxiosError) setError(data);
-          else setUser(data.user);
+      const response = await axios.post<T>(
+        "http://localhost:3001/users/find_or_create_user",
+        {
+          _id: user.id,
+          name: user.first_name
         }
       );
-    }
 
-    return () => {
-      tg.close();
-    };
-  }, [tg]);
+      return response.data;
+    }
+  });
+};
+
+function App() {
+  const { data, error } = useFindOrLoggedInUser<DataResponse>(
+    tg.initDataUnsafe.user
+  );
 
   return (
     <div
@@ -67,7 +54,7 @@ function App() {
         alignContent: "center"
       }}
     >
-      {user ? (
+      {data ? (
         <>
           <div
             style={{
@@ -77,12 +64,12 @@ function App() {
           >
             <img
               style={{ borderRadius: "9999px" }}
-              src={user.image}
+              src={data.user.image}
               alt="user image"
             />
           </div>
 
-          <div>{JSON.stringify(user, null, 2)}</div>
+          <div>{JSON.stringify(data.user, null, 2)}</div>
         </>
       ) : (
         <>Loading...</>
@@ -94,7 +81,7 @@ function App() {
 
       <br></br>
 
-      <div>{JSON.stringify(error?.response?.data)}</div>
+      <div>{JSON.stringify(error?.message)}</div>
     </div>
   );
 }
