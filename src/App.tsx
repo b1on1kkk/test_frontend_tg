@@ -30,7 +30,7 @@ const useFindOrLoggedInUser = <T extends DataResponse>(
       if (!user) throw new Error("User is undefined");
 
       const response = await axios.post<T>(
-        "http://localhost:3001/users/find_or_create_user",
+        "https://50c9-37-214-42-169.ngrok-free.app/users/find_or_create_user",
         {
           _id: user.id,
           name: user.first_name
