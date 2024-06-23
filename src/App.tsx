@@ -30,7 +30,7 @@ const useFindOrLoggedInUser = <T extends DataResponse>(
       if (!user) throw new Error("User is undefined");
 
       const response = await axios.post<T>(
-        "https://ef54-37-214-42-169.ngrok-free.app/users/find_or_create_user",
+        `${import.meta.env.VITE_REQUEST_BACKEND}/users/find_or_create_user`,
         {
           _id: user.id,
           name: user.first_name
@@ -46,10 +46,6 @@ function App() {
   const { data, error } = useFindOrLoggedInUser<DataResponse>(
     tg.initDataUnsafe.user
   );
-
-  console.log(error);
-
-  console.log(data);
 
   return (
     <div
